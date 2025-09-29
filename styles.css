@@ -4,7 +4,7 @@
 :root {
     --primary-color: #6366f1;
     --primary-dark: #4f46e5;
-    --secondary-color: #10b981;
+    --secondary-color: #10b981;  
     --accent-color: #f59e0b;
     --danger-color: #ef4444;
     --success-color: #10b981;
@@ -146,35 +146,50 @@ p {
     border-bottom: 1px solid var(--border-light);
     z-index: 1000;
     transition: var(--transition);
+    height: 75px;
+    min-height: 75px;
 }
 
 .nav-container {
-    display:flex;
+    display:grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
     padding: 1rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    height: 90px;
+    height: 75px;
+    min-height: 75px;
+    column-gap: 2rem;
 }
 
 .nav-logo {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary-color);
+    white-space: nowrap;
+    flex: 0 0 auto;
 }
 
 .nav-logo i {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .nav-menu {
     display: flex;
     gap: 2rem;
+    justify-self: center;
+    align-items: center;
+    margin-left: 1rem; /* extra space between logo and Home */
 }
+
+/* Space navbar objects evenly across available width */
+.navbar .nav-container { grid-template-columns: auto 1fr auto; }
+.navbar .nav-logo { justify-self: start; }
+.navbar #nav-menu { justify-content: center; }
+.navbar .nav-controls { justify-self: end; }
 
 .nav-link {
     text-decoration: none;
@@ -207,6 +222,16 @@ p {
     display: flex;
     align-items: center;
     gap: 1rem;
+    justify-self: end;
+}
+
+/* Ensure navbar items don't alter height when toggling */
+.navbar .nav-link,
+.navbar .nav-logo,
+.navbar .nav-controls select,
+.navbar .wallet-connect-btn,
+.navbar .profile-switch {
+    line-height: 1;
 }
 
 .language-selector select {
@@ -221,11 +246,12 @@ p {
     background: linear-gradient(135deg, var(--secondary-color), #059669);
     color: var(--text-white);
     border: none;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem; /* smaller button */
     border-radius: var(--radius-md);
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
+    font-size: 0.9rem; /* slightly smaller text */
 }
 
 .wallet-connect-btn:hover {
@@ -249,54 +275,58 @@ p {
 
 /* Hero Section */
 .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding-top: 80px;
-    padding: 10px; /* Add padding to account for fixed navbar */
+  position: relative;
+  overflow: hidden;
+  color: var(--light-color);
+  text-align: center;
+  padding: 100px 20px 60px 20px; 
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
 }
 
 .hero-video {
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -2;
 }
 
 .hero-video video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.hero-background::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.8), rgba(16, 185, 129, 0.6));
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  max-width: none;
+  max-height: none;
+  display: block;
 }
 
 .hero-content {
-    text-align: center;
-    color: var(--text-white);
-    z-index: 1;
-    max-width: 800px;
-    padding: 0 2rem;
-    margin-top: -40px; /* Compensate for the added padding-top */
+    position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 60px; 
 }
 
 .hero-title {
@@ -307,7 +337,7 @@ p {
 }
 
 .gradient-text {
-    background: linear-gradient(135deg, #ffffff, #e0e7ff);
+    background: linear-gradient(135deg, #61ff61, #39e83f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1858,6 +1888,14 @@ section {
     }
 }
 
+/* Moderate widths: tighten navbar spacing to avoid overflow */
+@media (max-width: 1100px) {
+    .nav-menu { gap: 1rem; }
+    .nav-controls { gap: 0.5rem; }
+    .nav-logo { font-size: 1.125rem; }
+    .nav-logo i { font-size: 1.375rem; }
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 0.5rem;
@@ -1972,3 +2010,127 @@ section {
 .shadow { box-shadow: var(--shadow-md); }
 .shadow-lg { box-shadow: var(--shadow-lg); }
 .shadow-xl { box-shadow: var(--shadow-xl); }
+
+.profile-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+#profile-icon {
+    font-size: 2rem;
+    color: #007bff;
+    transition: color 0.2s;
+}
+
+#profile-icon:hover {
+    color: #0056b3;
+}
+
+#profile-mode-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Responsive Hero Section and Video */
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--light-color);
+  text-align: center;
+  padding: 100px 20px;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -2;
+}
+
+.hero-video video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  max-width: none;
+  max-height: none;
+  display: block;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 900px) {
+  .container {
+    padding: 0 10px;
+  }
+  .hero {
+    padding: 60px 10px;
+    min-height: 50vh;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 40px 5px;
+    min-height: 40vh;
+  }
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  .hero-background,
+  .hero-video {
+    width: 100vw;
+    height: 100vh;
+  }
+  .hero-video video {
+    width: 100vw;
+    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+}
+
+/* Profile modes: default Tourist hides analytics, Admin shows it */
+#analytics { display: none; }
+body.admin-mode #analytics { display: block; }
+
+/* Hide Analytics nav link in Tourist; show in Admin */
+.nav-menu .nav-link[href="#analytics"] { display: none; }
+body.admin-mode .nav-menu .nav-link[href="#analytics"] { display: inline-flex; }
+
+/* Profile switcher select styling */
+.profile-switch select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
